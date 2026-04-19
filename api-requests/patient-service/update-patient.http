@@ -1,0 +1,12 @@
+### Update and existing Patient
+PUT http://localhost:4000/patients
+Content-Type: application/json
+
+{
+  "name" : "Akanksha Joshi",
+  "email" : "email@email.com",
+  "address" : "Adress-112232",
+  "dateOfBirth" : "2003-06-03",
+  "registeredDate" : "2026-04-19"
+}
+###
