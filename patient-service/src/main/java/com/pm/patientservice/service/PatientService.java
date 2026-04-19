@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -36,7 +37,7 @@ public class PatientService {
 
     public PatientResponseDTO updatePatient(UUID id, PatientRequestDTO patientRequestDTO){
         Patient patient = patientRepository.findById(id).orElseThrow(()-> new PatientNotFoundException("Patient Not Found with id: " + id));
-        if(patientRepository.existsByEmail(patientRequestDTO.getEmail())){
+        if( patientRepository.existsByEmailAndIdNot(patientRequestDTO.getEmail(),id)){
             throw new EmailAlreadyExistsException("A patient with this email already exists" + patientRequestDTO.getEmail());
         }
         patient.setName(patientRequestDTO.getName());
@@ -46,5 +47,9 @@ public class PatientService {
         Patient updatedPatient = patientRepository.save(patient);
         return PatientMapper.toDTO(updatedPatient);
 
+    }
+
+    public void deletePatient(UUID id){
+        patientRepository.deleteById(id);
     }
 }
